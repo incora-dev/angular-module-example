@@ -1,0 +1,53 @@
+<div class="item-container">
+  <section class="item-top">
+    <div class="d-flex">
+      <div>
+        <img class="item-image" src="https://media.tacdn.com/media/attractions-splice-spp-210x118/06/d6/49/9d.jpg" />
+      </div>
+      <div class="item-info">
+        <div class="general-info">
+          <div class="date">Nov 27, 2019</div>
+          <a routerLink="/cart" class="title">Rocinha Favela Walking Tour</a>
+          <div class="duration">5-Hour Favela and Rain Forest 11:00</div>
+        </div>
+        <div class="additional-info">
+          <div>
+            <div class="people-count">2 {{ 'cart.adult' | translate }}</div>
+            <div class="people-count">1 {{ 'cart.child' | translate }}</div>
+          </div>
+          <div class="item-price">$880</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="item-middle">
+    <div class="d-flex align-items-center pb-1">
+        <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/clock.svg'" ></div>
+        <span>1 day (Approx.)</span>
+    </div>
+    <div class="d-flex align-items-center pb-1">
+        <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/clock.svg'" ></div>
+        <span>1 day (Approx.)</span>
+    </div>
+    <div class="d-flex align-items-center pb-1">
+        <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/clock.svg'" ></div>
+        <span>1 day (Approx.)</span>
+    </div>
+  </section>
+  <section class="additional-info-section">
+      <div class="additional-info">
+        <div>
+          <div class="people-count">2 {{ 'cart.adult' | translate }}</div>
+            <div class="people-count">1 {{ 'cart.child' | translate }}</div>
+        </div>
+        <div class="item-price">$880</div>
+      </div>
+    </section>
+  <section class="item-bottom">
+    <div></div>
+    <div>
+      <a routerLink="/cart" class="btn-link">{{ 'general.edit' | translate }}</a>
+      <button class="btn-link" (click)="remove.emit()">{{ 'general.remove' | translate }}</button>
+    </div>
+  </section>
+</div>

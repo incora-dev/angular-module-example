@@ -1,0 +1,17 @@
+<div *ngIf="!opened"
+  (click)="opened = true"
+  class="btn-link"
+  >{{ 'cart.enter_promo' | translate }}</div>
+
+<div *ngIf="opened">
+  <form [formGroup]="form">
+    <label>
+        <div class="label">{{ 'cart.promo_code' | translate }}</div>
+        <div class="input-group">
+            <input type="text" formControlName="code" class="custom-input">
+            <button class="btn-apply" (click)="onSubmit()" [disabled]="form.invalid">{{ 'general.apply' | translate }}</button>
+          </div>
+          <div *ngIf="code?.errors?.invalid" class="text-error">{{'general.coupon_code_invalid' | translate}}</div>
+    </label>
+  </form>
+</div>

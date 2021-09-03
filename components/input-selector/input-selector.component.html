@@ -1,0 +1,17 @@
+<div class="field">
+  <input
+    (input)="onInputHandler($event.target.value)"
+    type="number"
+    min="1"
+    maxlength="10"
+    [value]="data.value"
+  >
+  <select
+    [disabled]="selectDisabled"
+    (change)="selectOption($event.target.value)">
+    <option
+      *ngFor="let item of options"
+      [value]="item"
+      [selected]="selectedOption === item">{{ item }}</option>
+  </select>
+</div>

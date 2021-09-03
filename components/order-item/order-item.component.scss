@@ -1,0 +1,230 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+img {
+  width: 210px;
+  height: 118px;
+}
+.wrapper {
+  padding: 20px;
+  border: 1px solid $light-gray4;
+  margin-bottom: 16px;
+}
+
+.item {
+  &-general {
+    @include display-flex();
+    padding-bottom: 20px;
+    border-bottom: 1px solid $light-gray4;
+
+    &-info {
+      @include display-flex($direction: column);
+      padding-left: 16px;
+
+      & .date {
+        @include font-style(14px, 400, $gray);
+      }
+
+      & .title {
+        @include font-style(20px);
+        padding-top: 7px;
+        margin: 0;
+      }
+
+      & .description {
+        font-size: 14px;
+        color: $gray;
+        line-height: 1.5;
+
+      }
+    }
+  }
+}
+
+.traveller {
+  &-section {
+    padding: 26px 4px;
+    margin: 0 0 16px;
+
+    & .description {
+      font-size: 16px;
+      color: $gray;
+    }
+
+    & form {
+      label {
+        width: 100%;
+      }
+      & .form {
+        &-title {
+          font-size: 18px;
+          margin: 40px 0 16px;
+        }
+        &-group {
+          width: 100%;
+
+          &:last-child {
+            margin-left: 10px;
+          }
+          &:first-child {
+            margin-right: 10px;
+          }
+
+          & input {
+            width: 100%;
+            line-height: 1.6;
+            color: $dark;
+            border: 1px solid $light-gray4;
+            padding: 10px 16px;
+
+            &[type="radio"] {
+              width: 20px;
+            }
+            &.valid {
+              @include background-config(no-repeat, 1rem 1rem, center right);
+              border: 1px solid $secondary;
+              background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23186b6d' d='M9 18a1 1 0 01-.71-.29l-6-6A1 1 0 013.7 10.3L9 15.59l11.29-11.3A1 1 0 0121.7 5.7l-12 12a1 1 0 01-.7.3z'/%3E%3C/svg%3E");
+              background-origin: content-box;
+            }
+            &.invalid {
+              border: 2px solid $red2;
+            }
+          }
+        }
+
+        &-user-data {
+          @include display-flex();
+          margin-bottom: 10px;
+
+          .label {
+            margin-bottom: 5px;
+          }
+        }
+      }
+    }
+
+    .extra-info {
+      .location-pickup {
+        .label {
+          @include font-style(16px, 400, $gray);
+          margin-bottom: 16px;
+        }
+
+        label {
+          @include display-flex();
+          margin-top: 12px;
+        }
+
+        .subtitle {
+          margin-bottom: 8px;
+        }
+
+        .title {}
+
+        &__input {
+        }
+
+        &__main {
+          width: 100%;
+        }
+
+        &__descr {
+          @include font-style(16px, 400, $gray);
+          margin-bottom: 4px;
+          display: block;
+        }
+        &__descr2 {
+          @include font-style(14px, 400, $gray);
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+}
+
+.special-requirements {
+  @include display-flex();
+  margin-top: 20px;
+
+  & .left {
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  & .right {
+    width: 100%;
+    margin-left: 0px;
+  }
+}
+
+.hotel-pickup-title {
+
+}
+label {
+  color: $gray;
+  font-size: 16px;
+}
+
+.label {
+  margin-bottom: 8px;
+  font-size: 19px;
+  margin-bottom: 13px;
+}
+
+form .label {
+  margin-bottom: 0;
+}
+
+.error-text {
+  color: $red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+textarea {
+  padding: 10px 16px;
+  line-height: 1.25;
+  width: 100%;
+  border: 1px solid $light-gray4;
+}
+
+select.ng-invalid.ng-touched {
+  border: 2px solid $red2;
+  color: $red2;
+}
+
+
+@media screen and (max-width: 580px) {
+  .special-requirements {
+    display: block;
+
+    .left {
+      margin-bottom: 10px;
+    }
+  }
+
+  .traveller-section form .form {
+
+    &-group {
+      &:nth-child(1n) {
+        margin: 0 0 10px;
+      }
+    }
+
+    &-user-data {
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .item {
+    &-general {
+      @include display-flex ($wrap: wrap);
+
+      &-info {
+        padding-top: 16px;
+        padding-left: 0;
+      }
+    }
+  }
+}

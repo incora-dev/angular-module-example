@@ -1,0 +1,208 @@
+<div class="wrapper">
+  <section class="item-general">
+    <div>
+        <img [src]="information.image">
+    </div>
+    <div class="item-general-info">
+      <div class="date">{{ information.date | date: "MMM d, yyyy" }}</div>
+      <div class="title">{{ information.title }}</div>
+      <div class="description">{{ information.offer.title }}</div>
+    </div>
+  </section>
+
+  <section class="traveller-section">
+    <div class="header" #form>
+      <div class="label">{{ 'cart.order.traveller_details' | translate }}</div>
+      <div class="description">{{ 'cart.order.confirm_information' | translate }}</div>
+    </div>
+    <form [formGroup]="travellerDetailForm" (ngSubmit)="onSubmitHandler($event)">
+      <ng-container *ngFor="let group of travellers.controls; let i = index">
+        <div class="form-title">
+        {{
+          i === 0
+          ? ('cart.order.lead_traveller' | translate)
+          : ('cart.traveller' | translate) + ' ' + (i + 1)
+        }}
+        ({{ travellersTitleGroup[i] | translate }})
+        </div>
+        <div class="form-user-data">
+          <div class="form-group">
+            <label>
+              <div class="label">{{ 'cart.order.first_name' | translate }}*</div>
+              <input
+                type="text"
+                [formControl]="group.controls.first_name"
+                [ngClass]="{
+                  'invalid': (group.controls.first_name.dirty || group.controls.first_name.touched) && group.controls.first_name.invalid && group.controls.first_name.errors.required,
+                  'valid': (group.controls.first_name.value && group.controls.first_name.valid)
+                }"
+                >
+              <div
+                *ngIf="(group.controls.first_name.dirty || group.controls.first_name.touched) && group.controls.first_name.invalid && group.controls.first_name.errors.required"
+                class="error-text"
+                >{{ 'cart.order.traveller_first_name_required' | translate }}.
+              </div>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <div class="label">{{ 'cart.order.last_name' | translate }}*</div>
+              <input
+                type="text"
+                [formControl]="group.controls.surname"
+                [ngClass]="{
+                  'invalid': (group.controls.surname.dirty || group.controls.surname.touched) && group.controls.surname.invalid && group.controls.surname.errors.required,
+                  'valid': (group.controls.surname.value && group.controls.surname.valid)
+                }"
+                >
+              <div
+                *ngIf="(group.controls.surname.dirty || group.controls.surname.touched) && group.controls.surname.invalid && group.controls.surname.errors.required"
+                class="error-text"
+                >{{ 'cart.order.traveller_last_name_required' | translate }}.</div>
+            </label>
+          </div>
+        </div>
+
+        <ng-container *ngFor="let q of personalQuestions; let ind = index">
+          <div class="form-user-data">
+            <div class="m-0 form-group">
+              <label>
+                <div class="label">{{ q.title | translate }}{{ q.required ? '*' : ''}}</div>
+                  <input
+                    *ngIf="q.string_question_id !== 'weights_passengerWeights' && q.string_question_id !== 'heights_passengerHeights'"
+                    type="text"
+                    [formControl]="getQuestionField(i, q.string_question_id)"
+                    [ngClass]="{
+                      'invalid': (getQuestionField(i, q.string_question_id).dirty || getQuestionField(i, q.string_question_id).touched) && getQuestionField(i, q.string_question_id).invalid && getQuestionField(i, q.string_question_id).errors.required,
+                      'valid': (getQuestionField(i, q.string_question_id).value && getQuestionField(i, q.string_question_id).valid)
+                    }"
+                    >
+                  <app-input-selector
+                    *ngIf="q.string_question_id === 'weights_passengerWeights'"
+                    [options]="['lb', 'kg']"
+                    [selectDisabled]="i > 0"
+                    (changeOption)="onChangeOptionHandler($event, 'weights_passengerWeights')"
+                    [selectedOption]="questionOptions['weights_passengerWeights']"
+                    [formControl]="getQuestionField(i, q.string_question_id)"
+                    ></app-input-selector>
+                  <app-input-selector
+                    *ngIf="q.string_question_id === 'heights_passengerHeights'"
+                    [options]="['ft/in', 'cm']"
+                    [selectDisabled]="i > 0"
+                    (changeOption)="onChangeOptionHandler($event, 'heights_passengerHeights')"
+                    [selectedOption]="questionOptions['heights_passengerHeights']"
+                    [formControl]="getQuestionField(i, q.string_question_id)"
+                  ></app-input-selector>
+                  <div
+                    *ngIf="(getQuestionField(i, q.string_question_id).dirty || getQuestionField(i, q.string_question_id).touched) && getQuestionField(i, q.string_question_id).invalid && getQuestionField(i, q.string_question_id).errors.required"
+                    class="error-text"
+                    >{{ 'cart.order.filed_required' | translate }}</div>
+              </label>
+            </div>
+          </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngFor="let q of generalQuestions; let ind = index">
+        <div class="form-user-data">
+          <div class="m-0 form-group">
+            <label>
+              <div class="label">{{ q.title | translate }}{{ q.required ? '*' : ''}}</div>
+                <input
+                  type="text"
+                  [formControl]="getGeneralQuestionField(q.string_question_id)"
+                  [ngClass]="{
+                    'invalid': (getGeneralQuestionField(q.string_question_id).dirty || getGeneralQuestionField(q.string_question_id).touched) && getGeneralQuestionField(q.string_question_id).invalid && getGeneralQuestionField(q.string_question_id).errors.required,
+                    'valid': (getGeneralQuestionField(q.string_question_id).value && getGeneralQuestionField(q.string_question_id).valid)
+                  }"
+                  >
+                <div
+                  *ngIf="(getGeneralQuestionField(q.string_question_id).dirty || getGeneralQuestionField(q.string_question_id).touched) && getGeneralQuestionField(q.string_question_id).invalid && getGeneralQuestionField(q.string_question_id).errors.required"
+                  class="error-text"
+                  >{{ 'cart.order.filed_required' | translate }}</div>
+            </label>
+          </div>
+        </div>
+      </ng-container>
+      <div class="extra-info">
+        <div class="form-title">{{ 'cart.order.tour_specifics' | translate }}</div>
+          <div class="form-group ml-0 mb-0">
+            <label *ngIf="locationPickUp" class="location-pickup">
+              <div class="label">Pickup Location*</div>
+              <div class="subtitle">The provider offers pickup from select hotels. Meet the provider at one of the listed hotels.</div>
+
+              <label>
+                <input
+                  class="location-pickup__input"
+                  type="radio"
+                  name="locationPickup"
+                  value="hotel"
+                  formControlName="locationPickup"
+                  >
+                <div *ngIf="hotelField" class="location-pickup__main">
+                  <span class="location-pickup__descr">Please select a pickup location from the list</span>
+                  <app-selector
+                    formControlName="hotel"
+                    [items]="hotels"
+                    placeholder="Enter new location (hotel, etc.)"
+                  ></app-selector>
+                </div>
+              </label>
+              <ng-container *ngIf="showPickupPointInput">
+                <div class="label mt-2">Hotel pickup is offered for this activity, please enter your hotel details.</div>
+                <label>
+                  <input
+                    class="location-pickup__input"
+                    type="input"
+                    name="pickupPoint"
+                    value="pickupPoint"
+                    formControlName="pickupDetailsInput"
+                    >
+                </label>
+              </ng-container>
+<!--              <label>-->
+<!--                <input-->
+<!--                  class="location-pickup__input"-->
+<!--                  type="radio"-->
+<!--                  name="locationPickup"-->
+<!--                  value="no-hotel"-->
+<!--                  formControlName="locationPickup"-->
+<!--                  >-->
+<!--                <div class="location-pickup__main">-->
+<!--                  <span class="location-pickup__descr">I will select my pickup location later</span>-->
+<!--                  <div-->
+<!--                    class="location-pickup__descr2"-->
+<!--                    *ngIf="locationPickUp.value === 'no-hotel'"-->
+<!--                    >You can always add a pickup location in My Bookings in your {{ APP_NAME }} account.-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </label>-->
+            </label>
+            <label class="special-requirements">
+              <div class="left" *ngIf="langs?.length">
+                <div class="label">Tour/Activity Language*</div>
+                  <select class="m-0" formControlName="language">
+                    <option [value]="null" selected disabled>Please select</option>
+                    <option *ngFor="let lang of langs" [value]="lang.value">{{ lang.label }}</option>
+                  </select>
+                  <div
+                  *ngIf="(langField.dirty || langField.touched) && langField.invalid && langField.errors.required"
+                  class="error-text"
+                  >Tour Language is required.</div>
+              </div>
+              <div class="right">
+                <div class="label">{{ 'cart.order.special_requirements' | translate }}</div>
+                <textarea
+                  rows="2"
+                  maxlength="1000"
+                  formControlName="specialRequirements"
+                  placeholder="e.g dietary needs, accessibility"
+                  ></textarea>
+              </div>
+
+            </label>
+          </div>
+      </div>
+      <input type="submit" hidden #submitBtn>
+    </form>
+  </section>
+</div>

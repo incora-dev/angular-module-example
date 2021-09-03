@@ -1,0 +1,47 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+:host{
+  display: block;
+  padding-bottom: 16px;
+
+  &.ng-invalid.ng-touched {
+    & .field {
+      & input,
+      & select {
+        border: 2px solid $red2;
+      }
+    }
+  }
+  &.ng-valid {
+    input {
+      @include background-config(no-repeat, 1rem 1rem, center right);
+      border: 1px solid $secondary;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23186b6d' d='M9 18a1 1 0 01-.71-.29l-6-6A1 1 0 013.7 10.3L9 15.59l11.29-11.3A1 1 0 0121.7 5.7l-12 12a1 1 0 01-.7.3z'/%3E%3C/svg%3E");
+      background-origin: content-box;
+    }
+  }
+}
+
+.field {
+  @include display-flex();
+
+  & input {
+    width: 100%;
+    line-height: 1.6;
+    color: $dark;
+    border: 1px solid $light-gray3;
+    padding: 10px 16px;
+  }
+
+  & select {
+    width: 25%;
+    margin: 0;
+    padding: 11px 16px;
+
+    &:disabled {
+      background: $gray2;
+    }
+  }
+
+}

@@ -1,0 +1,42 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.item {
+  margin-bottom: 24px;
+
+  &-general {
+    @include display-flex($justify: space-between);
+  }
+  &-free,
+  &-name {
+    line-height: 1.45;
+    font-size: 16px;
+    font-family: $font-railway;
+    margin-bottom: 10px;
+    font-weight: 600;
+    max-width: 200px;
+  }
+
+  &-price {
+    font-weight: 700;
+    line-height: 1.5;
+    font-size: 16px;
+  }
+
+  &-date,
+  &-time,
+  &-people {
+    font-size: 14px;
+    color: $gray;
+    margin-bottom: 7px;
+    line-height: 1.1;
+  }
+
+  &-extra {
+    margin: 14px 0 -6px 0;
+    & * {
+      max-width: 100%;
+    }
+
+  }
+}

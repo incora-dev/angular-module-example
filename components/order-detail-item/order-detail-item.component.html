@@ -1,0 +1,23 @@
+<div class="item">
+  <div class="item-general">
+    <div class="item-name">{{ checkoutInformation.title }}</div>
+    <div class="item-price">{{ checkoutInformation?.offer?.price | number: '1.0-2' | currency: currency.code }}</div>
+  </div>
+  <div>
+    <div class="item-date">{{ checkoutInformation.date | date: "MMM dd, yyyy" }}</div>
+    <div class="item-time">{{ checkoutInformation.offer.title }}</div>
+    <div class="item-people">
+      <p
+        *ngFor="let item of checkoutInformation.tourAgeBand"
+      >
+      <ng-container *ngIf="item.count">
+        {{ item.count }}&nbsp;{{ item.count > 1 ? item.plural_description : item.description }}
+      </ng-container>
+
+      </p>
+    </div>
+  </div>
+  <div class="item-extra" *ngIf="cancellationDate">
+    <div class="item-free">{{ 'cart.free_cancellation_before' | translate }} {{ cancellationDate }}</div>
+  </div>
+</div>

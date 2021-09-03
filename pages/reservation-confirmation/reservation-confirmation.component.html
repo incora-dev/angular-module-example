@@ -1,0 +1,96 @@
+<app-header></app-header>
+<div class="container-fluid">
+  <div>
+    <a routerLink="/" class="btn-link">{{ 'reservation_confirmation.continue_shopping' | translate }}</a>
+  </div>
+  <p class="title">
+    {{ 'reservation_confirmation.thanks_for_reservations' | translate }}
+  </p>
+  <p class="sub-title">
+    {{ 'reservation_confirmation.we_have_sent' | translate }} {{ booking.email }}.
+  </p>
+  <div class="info">
+    <p class="info-total">
+      {{ 'reservation_confirmation.total_due' | translate }}
+      <span>{{ price | currency: 'USD' }}</span>
+    </p>
+    <p
+      *ngIf="leftDays > 0 && booking?.status !== 'confirmed'"
+      class="info-desc"
+      >{{ 'reservation_confirmation.card_will_charged' | translate: { leftDays: leftDays, endPayDate: endPayDate.format('MM/DD/YY') } }}
+    </p>
+  </div>
+  <div class="booking">
+    <p class="title">{{ 'reservation_confirmation.interary_details' | translate }}</p>
+    <p class="bold-gray-text">{{ 'reservation_confirmation.confirmation_number' | translate }}: {{ bookingItem.itinerary_id }}</p>
+    <div class="booking__details">
+      <div class="booking__details-top">
+        <div class="booking__details-top-calendar">
+          <p>{{ bookingDate | date: 'MMM' | uppercase }}</p>
+          <p class="day">{{ bookingDate | date: 'dd' }}</p>
+          <p>{{ bookingDate | date: 'yyyy' }}</p>
+        </div>
+        <div class="booking__details-top-name">
+          <a
+            class="name"
+            routerLink="/tours/{{ booking?.booking_items[0]?.destination_id }}/{{ booking?.booking_items[0]?.product_code }}"
+          >{{ title }}</a>
+          <p>{{ title }}</p>
+          <p>{{ time }}</p>
+        </div>
+      </div>
+      <div class="booking__details-content">
+        <div class="bold">{{ allTravellers }}</div>
+        <p class="booking__details-content-text">{{ 'reservation_confirmation.booking_reference' | translate }}: {{ bookingItem.item_id }}</p>
+        <div [ngClass]="[booking?.status, 'status']">{{ booking?.status }}</div>
+        <p class="booking__details-content-desc">{{ 'reservation_confirmation.mobile_ticket_or_print' | translate }}</p>
+        <a
+          class="btn btn-green"
+          (click)="toBookingDetails()"
+        >{{ 'reservation_confirmation.view_booking' | translate }}</a>
+      </div>
+    </div>
+    <div class="block">
+      <p class="bold">{{ 'reservation_confirmation.access_your_booking_anytime' | translate }}</p>
+      <p class="block-text">{{ 'reservation_confirmation.you_can_visit' | translate }}
+        <a routerLink="/bookings" class="link">{{ 'reservation_confirmation.my_bookings' | translate }}</a>
+        {{ 'reservation_confirmation.to_see_interary_details' | translate }}.</p>
+    </div>
+
+    <div class="items-container" *ngIf="alsoBoughtTours?.length">
+      <p class="title">{{ 'reservation_confirmation.who_bought' | translate }}</p>
+      <div class="items">
+        <app-product-item
+          [size]="Size.SMALL"
+           *ngFor="let item of alsoBoughtTours"
+          [data]="item">
+        </app-product-item>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="destination-info"
+  >
+  <a
+    routerLink="/tours/city/{{ booking?.booking_items[0]?.destination_id }}"
+    class="link"
+    >
+    {{'reservation_confirmation.making_plans' | translate: { city: booking.booking_items[0].destination_name } }} ▸
+  </a>
+</div>
+</div>
+<app-footer></app-footer>
+
+<app-modal
+  *ngIf="isAddPasswordModalOpened"
+  [isOpen]="true"
+  [withHeader]="false"
+  (hideModal)="rejectSettingPassword()"
+>
+  <app-add-password-modal
+    (cancel)="rejectSettingPassword()"
+    [userEmail]="booking.email"
+    (hideModal)="hideModal()"
+  ></app-add-password-modal>
+</app-modal>

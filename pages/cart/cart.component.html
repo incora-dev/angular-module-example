@@ -1,0 +1,140 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+  <div class="cart_title title">{{ 'cart.shopping_cart' | translate }}</div>
+  <div class="checkout-sticky-container">
+    <section class="checkout_section-wrapper">
+      <div class="checkout_section">
+        <div class="cart_total">
+          <div class="cart_total-label">{{ 'cart.total' | translate }} (1):</div>
+          <div>
+              <div class="title text-right">$112</div>
+              <p class="cart_total-desc">{{ 'cart.no_additional_taxes' | translate }}</p>
+          </div>
+        </div>
+        <div class="d-flex">
+          <a routerLink="/cart/checkout" class="btn btn-orange-fill w-100">{{ 'cart.continue_checkout' | translate }}</a>
+        </div>
+        <div class="cart_icons">
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/visa.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/ammerican_express.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/mastercard.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/discover.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/jcb.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/paypal.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/gpay.svg'"></div>
+
+        </div>
+      </div>
+      <section class="benefits-section">
+          <div class="benefits">
+            <div class="benefits-item">
+              <div class="benefits-item-title">{{ 'cart.lowest_price' | translate }}</div>
+              <div class="benefits-item-dscr">{{ 'cart.find_it_cheaper' | translate }}</div>
+            </div>
+            <div class="benefits-item">
+                <div class="benefits-item-title">{{ 'cart.global_support' | translate }}</div>
+                <div class="benefits-item-dscr">{{ 'cart.get_answer' | translate }}</div>
+            </div>
+            <div>
+              <div class="benefits-item">
+                <div class="benefits-item-title">{{ 'cart.book_securely' | translate }}</div>
+                  <div class="benefits-item-dscr">
+                    <span
+                      [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/lock.svg'"
+                      [setSVGAttributes]="{height: '18px', width: '18px'}"
+                      ></span>
+                    <span class="benefits-item-dscr">{{ 'cart.we_use_SSL' | translate }}</span>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-section">
+            <div
+              [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/telephone.svg'"
+              [setSVGAttributes]="{'fill': '#24305e'}"
+              ></div>
+            <div>
+                <div class="book-online">{{ 'cart.book_or_call' | translate }}</div>
+                <div class="phone">{{ phoneNumber }}</div>
+            </div>
+
+          </div>
+        </section>
+    </section>
+    <section class="cart-items-section">
+      <div class="cart-items">
+        <app-cart-item *ngFor="let item of items"></app-cart-item>
+      </div>
+
+      <div class="promo-section mb-2">
+        <div>
+          <a routerLink="/" class="btn-link">{{ 'cart.continue_shopping' | translate }}</a>
+        </div>
+        <div class="promo-section-code">
+          <app-enter-promo-code></app-enter-promo-code>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="benefits-section">
+    <div class="benefits">
+      <div class="benefits-item">
+        <div class="benefits-item-title">{{ 'cart.lowest_price' | translate }}</div>
+        <div class="benefits-item-dscr">{{ 'cart.find_it_cheaper' | translate }}</div>
+      </div>
+      <div class="benefits-item">
+          <div class="benefits-item-title">{{ 'cart.global_support' | translate }}</div>
+          <div class="benefits-item-dscr">{{ 'cart.get_answer' | translate }}</div>
+      </div>
+      <div>
+        <div class="benefits-item">
+          <div class="benefits-item-title">{{ 'cart.book_securely' | translate }}</div>
+            <div class="benefits-item-dscr">
+              <span
+                [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/lock.svg'"
+                [setSVGAttributes]="{height: '18px', width: '18px'}"
+                ></span>
+              <span>{{ 'cart.we_use_SSL' | translate }}</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-section">
+      <div
+        [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/telephone.svg'"
+        [setSVGAttributes]="{'fill': '#24305e'}"
+        ></div>
+      <div>
+          <div class="book-online">{{ 'cart.book_or_call' | translate }}</div>
+          <div class="phone">{{ phoneNumber }}</div>
+      </div>
+
+    </div>
+  </section>
+  <section>
+    <div class="title">{{ 'cart.who_bought' | translate }}</div>
+    <div class="tours-list">
+      <div class="item">
+        <app-product-item></app-product-item>
+      </div>
+      <div class="item">
+        <app-product-item></app-product-item>
+      </div>
+      <div class="item">
+        <app-product-item></app-product-item>
+      </div>
+      <div class="item">
+        <app-product-item></app-product-item>
+      </div>
+      <div class="item">
+        <app-product-item></app-product-item>
+      </div>
+      <div class="item">
+        <app-product-item></app-product-item>
+      </div>
+    </div>
+  </section>
+</div>
+<app-footer></app-footer>

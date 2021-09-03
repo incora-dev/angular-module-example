@@ -1,0 +1,72 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.header-description2 {
+  line-height: 21px;
+  padding-bottom: 26px;
+}
+
+.booking-loader {
+  @include position (fixed, 0, 0, 0, 0, $z-index: 100);
+  @include display-flex (center, center);
+  background-color: rgba(0,0,0, 0.65);
+}
+
+.section-contact {
+  .email {
+    margin-right: 1.5rem;
+  }
+
+  .phone {
+    margin-left: 1.5rem;
+  }
+}
+
+.flex {
+  @include display-flex (flex-start, $wrap: wrap);
+  padding: 0 -20px;
+}
+
+.gray-text {
+  @include font-style(16px, 400, $gray, $lineHeight: 1.5, $spacing: 0);
+}
+
+.green-text {
+  @include font-style(16px, 400, $secondary, $lineHeight: 1.5, $spacing: 0);
+  margin-left: 4px;
+}
+
+input {
+
+  &:disabled {
+    background-color: $light-gray4;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .section-contact {
+
+    .d-flex {
+      @include display-flex ($wrap: wrap);
+
+    }
+
+    .email {
+      margin-right: 0;
+    }
+
+    .phone {
+      margin-left: 0;
+
+      .d-flex {
+        input {
+          width: 70%;
+        }
+      }
+    }
+
+    .phone-prefix {
+      width: 30%;
+    }
+  }
+}

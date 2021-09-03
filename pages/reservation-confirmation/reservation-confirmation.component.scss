@@ -1,0 +1,207 @@
+@import 'src/assets/styles/variables';
+@import 'src/assets/styles/mixins';
+
+.container-fluid {
+  margin-top: 22px;
+  padding-left: 35px;
+
+  .btn-link {
+    @include font-style($color: $secondary, $spacing: -0.7px);
+  }
+
+  .title {
+    @include font-style (28px, 400, $lineHeight: 1.25);
+    margin-top: 20px;
+  }
+
+  .sub-title {
+    @include font-style (16px, 400, $gray);
+    margin: 20px 7px;
+    word-spacing: 4px;
+  }
+
+  .info {
+    @include display-flex($align: center);
+    @include border-style ($border-bottom: 1px solid $light-gray4);
+    margin-top: 22px;
+    margin-left: 8px;
+    padding-bottom: 20px;
+
+    &-desc {
+      @include font-style(16px, $color: $dark, $family: $font-railway);
+      margin: 5px;
+    }
+
+    &-total {
+      @include font-style (18px, $bold: bold);
+      margin-right: 20px;
+
+      span {
+        @include font-style (18px, $bold: bold);
+        margin-left: 3px;
+      }
+    }
+  }
+
+  .booking {
+    padding-bottom: 20px;
+
+    .title {
+      @include font-style (20px, 400, $family: $font-railway);
+      margin: 26px 0 0 8px;
+    }
+
+    .bold-gray-text {
+      @include font-style (16px, bold, $gray);
+      margin: 19px 8px;
+    }
+
+    &__details {
+      @include border-style ($border-bottom: 1px solid $light-gray4);
+      padding-bottom: 20px;
+
+      &-top {
+        @include display-flex;
+        margin-top: 15px;
+
+        &-calendar {
+          @include border-style ($border-right: 1px solid $light-gray4);
+          @include display-flex (space-between, center, $direction: column);
+          width: 57px;
+          height: 60px;
+          padding-right: 7px;
+
+          .day {
+            @include font-style (24px, bold, $family: $sans-serif);
+          }
+        }
+
+        &-name {
+          a.name {
+            @include font-style (20px, 400, $secondary, $lineHeight: 1.25, $family: $font-railway);
+            margin-bottom: 8px;
+            display: block;
+
+            &:hover {
+              @include font-style ($color: $green);
+              text-decoration: underline;
+              cursor: pointer;
+            }
+          }
+          margin-top: 2px;
+          padding-left: 14px;
+        }
+      }
+
+      &-content {
+        padding-left: 71px;
+
+        &-text {
+          @include font-style (16px, 400, $gray);
+          margin-top: 10px;
+          word-spacing: 3px;
+        }
+
+        &-desc {
+          @include font-style (16px, 400, $gray);
+          word-spacing: 2px;
+        }
+
+        .bold {
+          @include font-style (13px);
+          margin-bottom: 12px;
+        }
+
+        .status {
+          @include font-style (14px, 400, $white, $family: $font-railway, $transform: uppercase);
+          display: inline-block;
+          padding: 6px 4px;
+          margin: 10px 0;
+        }
+
+        .btn {
+          @include font-style ($bold: bold, $lineHeight: 16px);
+          margin-top: 17px;
+          width: 275px;
+          height: 40px;
+        }
+      }
+    }
+
+    .block {
+      padding: 27px 8px;
+
+      &-text {
+        @include font-style (14px);
+        letter-spacing: 0.2px;
+        margin-top: 19px;
+      }
+
+      .bold {
+        word-spacing: -1px;
+        margin-bottom: 10px;
+      }
+
+      span {
+        @include font-style ($color: $secondary);
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .items-container {
+      @include border-style ($border-top: 1px solid $light-gray4);
+
+      .items {
+        @include display-flex;
+        overflow-y: auto;
+        padding: 15px 6px 0 7px;
+        app-product-item {
+          width: 278px;
+          margin-right: 27px;
+        }
+      }
+    }
+  }
+
+  .destination-info {
+    margin: 20px 0 30px;
+    text-align: center;
+
+    .link {
+      @include font-style (16px, $color: $secondary, $align: center);
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container-fluid {
+    padding-left: 20px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .container-fluid {
+    .booking__details-content {
+      padding-left: 0;
+      padding-top: 20px;
+    }
+
+    .title, .sub-title, .info {
+      margin-left: 0;
+    }
+
+    .booking .title, .booking .bold-gray-text  {
+      margin-left: 0;
+    }
+
+  }
+}

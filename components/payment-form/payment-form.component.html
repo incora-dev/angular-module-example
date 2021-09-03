@@ -1,0 +1,96 @@
+<form [formGroup]="paymentForm" (submit)="onSubmitHandler($event)">
+  <label #paymentFormHTML>
+    <div class="cardholder label">{{ 'cart.payment.cardholder_name' | translate }}*</div>
+    <input type="text" formControlName="ownerName">
+
+    <ng-container *ngIf="ownerName.errors && ownerName.touched">
+      <div *ngIf="ownerName.errors.required" class="text-error">{{'cart.payment.cardholder_name_required' | translate}}</div>
+      <div *ngIf="ownerName.errors.minlength; else patternError">
+        <div class="text-error">{{'cart.payment.cardholder_length_error' | translate}}</div>
+      </div>
+      <ng-template #patternError>
+          <div *ngIf="ownerName.value" class="text-error">{{'cart.payment.cardholder_invalid' | translate}}</div>
+      </ng-template>
+    </ng-container>
+  </label>
+
+  <label>
+    <div class="card-number">
+      <div class="card-number-label">
+        <div class="label">{{ 'cart.payment.card_number' | translate }}*</div>
+        <div class="d-flex">
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/visa.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/ammerican_express.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/mastercard.svg'"></div>
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/jcb.svg'"></div>
+        </div>
+      </div>
+      <input
+        type="text"
+        (input)="onValueChanged($event.target.value)"
+        formControlName="number"
+        maxlength="23"
+      >
+    </div>
+    <div
+      *ngIf="number?.errors?.invalid && number.touched"
+      class="text-error">{{ 'cart.payment.card_number_invalid' | translate }}</div>
+  </label>
+
+  <div class="card-date">
+    <label>
+      <div class="label">{{ 'cart.payment.expiration_date' | translate }}*</div>
+      <div class="card-expired">
+        <select formControlName="expMonth" class="month">
+          <option disabled selected tabindex="2" value>MM</option>
+          <option
+            *ngFor="let month of months"
+            [value]="month.value"
+          >{{month.value}} - {{ month.name | translate }}</option>
+        </select>
+        <select formControlName="expYear" class="year">
+          <option disabled selected tabindex="3" value>YYYY</option>
+          <option *ngFor="let year of availableYears" [value]="year">{{year}}</option>
+        </select>
+      </div>
+    </label>
+
+    <label>
+      <div class="label">{{ 'cart.payment.secure_code' | translate }}*</div>
+      <input type="text" formControlName="cvc" maxlength="4">
+      <ng-template #tipContent>
+        <div class="question-tooltip">
+          <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/card_explainer.svg'"></div>
+          <p>{{ 'cart.payment.cvc_explainer' | translate }}</p>
+        </div>
+      </ng-template>
+      <div
+        placement="auto"
+        [ngbTooltip]="tipContent"
+        tooltipClass="thin-tooltip"
+        class="d-flex align-items-center question">
+        <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/icon_question.svg'"></div>
+        <div class="ml-2 link">{{ 'cart.payment.what_is_it' | translate }}</div>
+      </div>
+      <div *ngIf="cvc.errors && cvc.touched" class="text-error">{{ 'cart.payment.cvc_invalid' | translate }}</div>
+    </label>
+  </div>
+
+  <div class="card-address">
+    <label>
+      <div class="label">{{ 'cart.payment.country' | translate }}*</div>
+      <select formControlName="country">
+        <option
+          *ngFor="let country of countries"
+          [value]="country.value"
+        >{{country.label}}</option>
+      </select>
+    </label>
+    <label *ngIf="zipcode">
+      <div class="label">{{ 'Zip code' }}*</div>
+      <input type="text" formControlName="zipcode">
+    </label>
+  </div>
+
+  <input hidden #submitBtn type="submit">
+</form>

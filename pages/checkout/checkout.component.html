@@ -1,0 +1,331 @@
+<app-header [withNavigation]="false" [withSearch]="false"></app-header>
+<div class="wrapper container-fluid">
+  <div class="wrapper-left">
+    <div *ngIf="bookError" class="alert alert-danger" role="alert">
+      {{ bookError }}
+    </div>
+    <div class="title mb-3">{{ 'checkout.secure_checkout' | translate }}</div>
+    <div class="header-description">{{ 'checkout.a_few_minutes' | translate}}</div>
+    <div class="cart-items">
+      <app-order-item
+        #orderItem
+        [hotels]="hotels"
+        (formSubmitted)="onOrderItemSubmit($event)"
+        [hotels]="hotels"
+      ></app-order-item>
+    </div>
+
+    <section class="payment-details">
+      <div class="section-name">{{ 'checkout.payment_details' | translate }}</div>
+      <div class="section-description">{{ 'checkout.we_use_SSL_encryption' | translate }}</div>
+      <div class="payment-system-section">
+        <form [formGroup]="paymentSystemForm">
+          <div>
+            <label class="d-flex align-items-center credit-card-label">
+              <input
+                type="radio"
+                name="system"
+                checked
+                formControlName="system"
+                [value]="PaymentSystem.CREDIT_CARD"
+                >
+              <div class="ml-2 system-name">{{ 'checkout.credit_card' | translate }}</div>
+              <div class="d-flex">
+                  <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/visa.svg'"></div>
+                  <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/ammerican_express.svg'"></div>
+                  <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/mastercard.svg'"></div>
+                  <div [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/cart/jcb.svg'"></div>
+              </div>
+            </label>
+          </div>
+        </form>
+        <app-payment-form
+          #paymentForm
+          (formChanged)="paymentFormUpdated($event)"
+          (paymentSubmit)="paymentSubmit($event)"
+        ></app-payment-form>
+      </div>
+    </section>
+
+    <section class="section-contact" #contactFormHTML>
+        <div class="section-name">{{ 'checkout.contact_information' | translate }}</div>
+        <div class="section-description">{{ 'checkout.we_will_contact' | translate }}</div>
+        <form [formGroup]="contactForm">
+          <div class="d-flex">
+
+          <label class="email">
+            <div class="label">{{ 'checkout.email_address' | translate }}*</div>
+            <input
+              type="text"
+              formControlName="email"
+              [ngClass]="{
+                'invalid': contactForm.controls.email.touched && contactForm.controls.email.invalid,
+                'valid': contactForm.controls.email.value && contactForm.controls.email.valid
+              }">
+          </label>
+
+          <label class="phone">
+            <div class="label">{{ 'checkout.phone_number' | translate }}*</div>
+            <div class="d-flex">
+              <select class="phone-prefix" formControlName="phonePrefix">
+                <option
+                  *ngFor="let phone of phoneCodes.slice(0, 10)"
+                  [value]="phone.value"
+                  >{{ phone.name }} {{ phone.code }} </option>
+                <optgroup label="--------------------------"></optgroup>
+                <option
+                  *ngFor="let phone of phoneCodes.slice(10)"
+                  [value]="phone.value"
+                >{{ phone.name }} {{ phone.code }}</option>
+              </select>
+              <input
+                type="text"
+                formControlName="phoneNumber"
+                [ngClass]="{
+                  'invalid': (contactForm.controls.phoneNumber.touched) && contactForm.controls.phoneNumber.invalid,
+                  'valid': contactForm.controls.phoneNumber.value && contactForm.controls.phoneNumber.valid
+                }">
+            </div>
+          </label>
+          </div>
+          <div class="agree-section">
+            <label class="container d-flex align-items-center">
+              <div>{{ 'reserve.receive_email_special_offers' | translate: { APP_NAME: APP_NAME } }}</div>
+              <input type="checkbox" formControlName="receiveEmail">
+              <span class="checkmark"></span>
+            </label>
+
+            <label class="container d-flex align-items-center">
+              <div>{{ 'checkout.receive_text_message' | translate }}</div>
+              <input type="checkbox" formControlName="receiveText">
+              <span class="checkmark"></span>
+            </label>
+          </div>
+
+        </form>
+      </section>
+
+      <section class="order-detail">
+        <div class="section-name">{{ 'checkout.review_order_details' | translate }}</div>
+        <div class="order-detail-items">
+          <app-order-detail-item></app-order-detail-item>
+        </div>
+        <div class="order-detail-total">
+          <div class="order-detail-total-label">{{ 'checkout.total' | translate }}:*</div>
+          <div class="price">
+            <ng-container *ngIf="promoCode.discount; else no_discount">
+              <div class="price-old">
+                {{ information?.offer?.price | currency: currency.code }}
+              </div>
+              <div class="price-saved">
+                {{ 'checkout.discount_difference' | translate: {
+                  price: (promoCode.savedMoney | number: '1.1-2' | currency: currency.code)
+                } }}
+              </div>
+              <div class="price-new">{{ promoCode.newPrice | number:'1.1-2' | currency: currency.code }}</div>
+            </ng-container>
+            <ng-template #no_discount>
+              {{ information?.offer?.price | currency: currency.code }}
+            </ng-template>
+          </div>
+        </div>
+        <div *ngIf="currency.code !== 'USD'" class="price-in-usd">
+          <p innerHTML="{{'checkout.will_be_charged_in_usd' | translate: { price: information.priceInUSD } }}"></p>
+        </div>
+        <div>
+          <app-enter-promo-code
+            *ngIf="!promoCode.discount"
+            [productCode]="information.code"
+            (apply)="onPromoCodeApply($event)"
+          ></app-enter-promo-code>
+        </div>
+      </section>
+
+      <div class="before-accept-section">
+        <ul>
+          <li>{{ 'checkout.you_will_be_charged' | translate }}</li>
+          <li>{{ 'checkout.if_confirmation_is_not_receive' | translate }}</li>
+          <li>{{ 'checkout.cancellation_policy' | translate}}</li>
+          <li [innerHTML]="'checkout.clicking_book_now' | translate: {
+              APP_NAME: APP_NAME,
+              terms: '/termsAndConditions',
+              policy: '/privacy-policy'
+            }">
+          </li>
+          <app-accordion
+            [isOpen]="true"
+            *ngIf="information.cancellation_text"
+            title="{{ 'Cancellation Policy' | translate }}"
+          >
+            <div class="flex">
+              <span class="gray-text">{{ information.cancellation_text | striphtml }}</span>
+              <a class="green-text inline" routerLink="/help">{{ 'general.learn_more' | translate }}</a>
+              <span class="gray-text">&nbsp;{{ 'tour.about_cancellation' | translate }}.</span>
+            </div>
+          </app-accordion>
+        </ul>
+      </div>
+
+      <div>
+        <span [ngSwitch]="paymentSystem">
+        <p *ngSwitchCase="PaymentSystem.CREDIT_CARD">
+          <button
+            class="btn btn-orange-fill system-book"
+            (click)="bookTour()"
+            >{{ 'checkout.book_now' | translate }}</button>
+        </p>
+        <p *ngSwitchCase="PaymentSystem.PAY_PAL">
+          <button
+            class="btn btn-orange-fill system-book"
+            >{{ 'checkout.pay_with' | translate }} {{ 'checkout.pay_pal' | translate }} </button>
+        </p>
+        <p *ngSwitchCase="PaymentSystem.GOOGLE_PAY">
+            <button
+              class="btn btn-orange-fill system-book"
+              >
+              {{ 'checkout.pay_with' | translate }} {{ 'checkout.google_pay' | translate }}</button>
+          </p>
+        </span>
+      </div>
+
+      <section class="benefits-section">
+          <div class="benefits">
+            <div class="benefits-item">
+              <div class="benefits-item-title">{{ 'checkout.lowest_price' | translate }}</div>
+              <div class="benefits-item-dscr">{{ 'checkout.find_it_cheaper' | translate }}</div>
+            </div>
+            <div class="benefits-item">
+                <div class="benefits-item-title">{{ 'checkout.global_support' | translate }}</div>
+                <div class="benefits-item-dscr">{{ 'checkout.get_the_answer' | translate }}</div>
+            </div>
+            <div>
+              <div class="benefits-item">
+                <div class="benefits-item-title">{{ 'checkout.book_securely' | translate }}</div>
+                  <div class="benefits-item-dscr">
+                    <span
+                      [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/lock.svg'"
+                      [setSVGAttributes]="{height: '18px', width: '18px'}"
+                      ></span>
+                    <span>{{ 'checkout.we_use_SSL' | translate }}</span>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="phone-section">
+            <div
+              [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/telephone.svg'"
+              [setSVGAttributes]="{'fill': '#24305e'}"
+              ></div>
+            <div>
+                <div class="book-online">{{ 'checkout.book_or_call' | translate }}</div>
+                <div class="phone">{{ phone }}</div>
+            </div>
+
+          </div>
+        </section>
+    </div>
+
+    <div class="wrapper-right">
+        <section class="order-detail">
+            <div class="section-name">{{ 'checkout.review_order_details' | translate }}</div>
+            <div class="order-detail-items">
+              <app-order-detail-item></app-order-detail-item>
+            </div>
+            <hr>
+            <div class="order-detail-total">
+              <div class="order-detail-total-label">{{ 'checkout.total' | translate }}:*</div>
+              <div class="price">
+                <ng-container *ngIf="promoCode.discount; else no_discount">
+                  <div class="price-old">
+                    {{ information?.offer?.price | currency: currency.code }}
+                  </div>
+                  <div class="price-saved">
+                    {{ promoCode.savedMoney | number: '1.1-2' | currency: currency.code }} savings
+                  </div>
+                  <div class="price-new">{{ promoCode.newPrice | number:'1.1-2' | currency: currency.code }}</div>
+                </ng-container>
+                <ng-template #no_discount>
+                  {{ information?.offer?.price | currency: currency.code }}
+                </ng-template>
+              </div>
+            </div>
+            <div *ngIf="currency.code !== 'USD'" class="price-in-usd">
+              <p innerHTML="{{'checkout.will_be_charged_in_usd' | translate: { price: information.priceInUSD } }}"></p>
+            </div>
+            <div>
+              <app-enter-promo-code
+                *ngIf="!promoCode.discount"
+                [productCode]="information.code"
+                (apply)="onPromoCodeApply($event)"
+              ></app-enter-promo-code>
+            </div>
+            <div>
+                <span [ngSwitch]="paymentSystem">
+                <p *ngSwitchCase="PaymentSystem.CREDIT_CARD">
+                  <button
+                    class="btn btn-orange-fill system-book"
+                    (click)="bookTour()"
+                    >{{ 'checkout.book_now' | translate }}</button>
+                </p>
+                <p *ngSwitchCase="PaymentSystem.PAY_PAL">
+                  <a
+                    class="btn btn-orange-fill system-book"
+                    routerLink="/cart/confirmation"
+                    >{{ 'checkout.pay_with' | translate}} {{ 'checkout.pay_pal' | translate}} </a>
+                </p>
+                <p *ngSwitchCase="PaymentSystem.GOOGLE_PAY">
+                    <a
+                      class="btn btn-orange-fill system-book"
+                      routerLink="/cart/confirmation"
+                      >{{ 'checkout.pay_with' | translate}} {{ 'checkout.google_pay' | translate }}</a>
+                  </p>
+                </span>
+              </div>
+          </section>
+        <div class="title">{{ 'checkout.book_with_confidence' | translate }}</div>
+        <section class="benefits-section pl-0 pr-0">
+            <div class="benefits">
+              <div class="benefits-item">
+                <div class="benefits-item-title">{{ 'checkout.lowest_price' | translate }}</div>
+                <div class="benefits-item-dscr">{{ 'checkout.find_it_cheaper' | translate }}</div>
+              </div>
+              <div class="benefits-item">
+                  <div class="benefits-item-title">{{ 'checkout.global_support' | translate }}</div>
+                  <div class="benefits-item-dscr">{{ 'checkout.get_the_answer' | translate }}</div>
+              </div>
+              <div>
+                <div class="benefits-item">
+                  <div class="benefits-item-title">{{ 'checkout.book_securely' | translate }}</div>
+                    <div class="benefits-item-dscr">
+                      <span
+                        [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/lock.svg'"
+                        [setSVGAttributes]="{height: '18px', width: '18px'}"
+                        ></span>
+                      <span class="benefits-item-dscr">{{ 'checkout.we_use_SSL' | translate }}</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="phone-section">
+              <div
+                [inlineSVG]="'//tripelephant-viator-storage.s3.ca-central-1.amazonaws.com/assets/svg/telephone.svg'"
+                [setSVGAttributes]="{'fill': '#24305e'}"
+                ></div>
+              <div>
+                  <div class="book-online">{{ 'checkout.book_or_call' | translate }}</div>
+                  <div class="phone">{{ phone }}</div>
+              </div>
+
+            </div>
+          </section>
+    </div>
+</div>
+<div class="disclaimer">
+    {{ 'checkout.viator_inc' | translate: { APP_NAME: APP_NAME } }}
+    <a routerLink="/termsAndConditions" class="link">{{ 'checkout.customers_terms_of_use' | translate }}</a>,
+    <a routerLink="/privacy-policy" class="link">{{ 'checkout.privacy_policy' | translate }}</a>, {{ 'checkout.plus_the_operators' | translate }}.
+</div>
+<app-booking-loader *ngIf="loading"></app-booking-loader>
+<app-short-footer></app-short-footer>

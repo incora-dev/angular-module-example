@@ -1,0 +1,81 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+.btn {
+  &-link {
+    @include border-style(none);
+    @include position(relative);
+    @include font-style(16px, 700, $secondary, $lineHeight: 1.5, $family: $font-railway);
+    background: transparent;
+    padding: 4px 0;
+    cursor: pointer;
+    outline: none;
+
+    &:before {
+      display: none;
+    }
+  }
+
+  &-apply {
+    @include display-flex(center, center);
+    @include font-style($bold: 700, $color: $white);
+    width: 100%;
+    background: $secondary;
+    outline: none;
+    padding: 11px 16px;
+    cursor: pointer;
+
+    &:disabled:hover {
+      background: $gray;
+      cursor: not-allowed;
+    }
+  }
+}
+
+label{
+  width: 100%;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.label {
+  @include font-style(16px);
+  margin-bottom: 8px;
+}
+
+.input-group {
+  @include position(relative);
+  @include border-style(1px solid $light-gray4, $radius: 3px);
+  @include display-flex($wrap: nowrap);
+  overflow: hidden;
+  width: unset;
+
+
+  & > * {
+    @include border-style(none);
+  }
+
+  & input {
+    @include font-style(16px, 500, $lineHeight: 1.25);
+    padding: 11px 16px 11px 16px;
+    width: 300%;
+
+    &.ng-dirty.ng-touched.ng-invalid {
+      color: $light-red;
+      border: 2px solid $light-red;
+    }
+
+    &.ng-valid.ng-touched {
+      @include background-config(no-repeat, 1rem 1rem, center right);
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23186b6d' d='M9 18a1 1 0 01-.71-.29l-6-6A1 1 0 013.7 10.3L9 15.59l11.29-11.3A1 1 0 0121.7 5.7l-12 12a1 1 0 01-.7.3z'/%3E%3C/svg%3E");
+      background-origin: content-box;
+    }
+  }
+}
+
+.text-error {
+  @include font-style(14px, 400, $light-red, $lineHeight: 1.5);
+  margin-top: 8px;
+}
+
+

@@ -1,0 +1,329 @@
+@import 'src/assets/styles/mixins';
+@import 'src/assets/styles/variables';
+
+label {
+  cursor: pointer;
+  width: 100%;
+
+  input[type=text] {
+    margin-top: 8px;
+    height: 38px;
+    width: 100%;
+    padding: 3px 10px;
+  }
+}
+
+p {
+  line-height: 1.4;
+}
+
+.title {
+  font-size: 28px;
+  margin-left: 0;
+}
+
+.header-description {
+  font-size: 16px;
+  margin-bottom: 29px;
+}
+
+.payment-details {
+  padding: 24px 24px 38px 24px;
+  margin-bottom: 18px;
+  margin-top: 40px;
+
+  .section-name {
+    margin-bottom: 11px;
+  }
+  .credit-card-label {
+    width: 80%;
+    margin-bottom: 15px;
+  }
+  .card-number {
+    margin-bottom: 16px;
+  }
+}
+
+.section-contact {
+  padding: 24px;
+  margin-bottom: 42px;
+
+  .section-name {
+    margin-bottom: 11px;
+  }
+}
+
+.phone-section {
+  @include display-flex($align: center);
+
+  .book-online {
+    @include font-style(16px);
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: $dark;
+
+  }
+
+  .phone {
+    color: $dark;
+  }
+}
+
+input {
+
+  &:read-only {
+    background-color: $light-gray4;
+  }
+}
+
+ul {
+  margin-left: 15px;
+  margin-top: 24px;
+  list-style: disc;
+
+  & li {
+    margin-top: 8px;
+  }
+}
+.cart {
+  &-items {
+    & > * {
+      margin-bottom: 10px
+    }
+  }
+}
+.system-name {
+  @include font-style(16px);
+  margin: 0 16px;
+
+}
+.payment-system-section form {
+  margin-bottom: 24px;
+}
+section {
+  @include border-style(1px solid $light-gray4);
+  padding: 18px 16px;
+  margin-bottom: 18px;
+}
+
+.section {
+  &-name {
+    @include font-style(20px, 600, $dark, $family: $font-railway, $lineHeight: 1.5);
+    margin-bottom: 24px;
+  }
+
+  &-description {
+    @include font-style(18px, $family: $font-railway);
+    margin-bottom: 28px;
+  }
+
+  &-contact {
+
+    .email {
+      margin-right: 1.5rem;
+    }
+
+    .phone {
+      margin-left: 1.5rem;
+    }
+
+    & .agree-section {
+      margin-top: 16px;
+      padding: 21px 9px 0;
+
+      & .container {
+        @include font-style(18px, $family: $font-railway);
+        max-width: 100%;
+      }
+
+      & label {
+        margin-bottom: 9px;
+      }
+    }
+  }
+}
+
+.before-accept-section {
+  padding: 0 14px;
+  ul {
+    margin-top: 45px;
+  }
+
+  li {
+    @include font-style (12px, $lineHeight: 1.25);
+    margin-bottom: 13px;
+  }
+}
+
+.order-detail {
+  background: $gray2;
+  margin-bottom: 18px;
+
+  &-total {
+    @include display-flex($justify: space-between);
+    margin-top: 26px;
+    margin-bottom: 7px;
+
+    &-label {
+      @include font-style(20px, 600, $family: $font-railway);
+    }
+
+    & .price {
+      @include font-style(18px, 700);
+
+      &-old {
+        @include font-style(18px, 400);
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+      &-saved {
+        @include font-style(18px, 400, $red);
+      }
+
+      &-new {
+        @include font-style(20px, 700, $lineHeight: 1.25);
+
+      }
+    }
+  }
+}
+
+.system {
+  &-book {
+    width: 90%;
+    display: block;
+    margin: 23px auto 33px;
+  }
+}
+
+.benefits {
+  width: 100%;
+  &-item {
+    padding-bottom: 20px;
+
+    &-title {
+      @include font-style(16px, 600, $black, $lineHeight: 1.5, $family: $font-railway);
+    }
+
+    &-dscr {
+      @include display-flex($align: center);
+      @include font-style(16px, $color: $gray);
+      margin-top: 6px;
+    }
+  }
+
+  &-section {
+    @include border-style($border-right: none, $border-left: none, $border-bottom: none);
+    & hr {
+      margin-top: 21px;
+    }
+  }
+}
+
+.wrapper {
+  margin-top: 32px;
+  &-right {
+    display: none;
+    margin-left: 10px;
+
+
+    & .system-book {
+      margin: 20px 0 0 0;
+      width: 100%;
+    }
+
+    & .title {
+      font-size: 20px;
+    }
+
+    .order-detail {
+      margin-bottom: 39px;
+    }
+  }
+  &-left {
+    @include border-style($border-right: 1px solid transparent);
+    padding-right: 0;
+  }
+}
+
+.disclaimer {
+  @include font-style(12px, $color: $gray, $lineHeight: 1.5);
+  padding: 24px 56px;
+  background-color: $light-gray6;
+
+  .link {
+    @include font-style(12px, $color: $secondary, $lineHeight: 1.5);
+  }
+}
+
+.flex {
+  @include display-flex (flex-start, $wrap: wrap);
+  padding: 0 -20px;
+}
+
+.price-in-usd {
+  p {
+    @include font-style (12px, $color: $dark);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .wrapper {
+    @include display-flex();
+
+    &-right {
+      @include position(sticky, $top: 0);
+      position: sticky;
+      margin-top: 90px;
+      display: block;
+      height: 100%;
+      padding: 0px 2px 32px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    &-left {
+      @include border-style($border-right: 1px solid $light-gray4);
+      padding-right: 18px;
+      & .order-detail,
+      & .benefits-section {
+        display: none;
+      }
+    }
+  }
+}
+
+.gray-text {
+  @include font-style(16px, 400, $gray, $lineHeight: 1.5, $spacing: 0);
+}
+
+.green-text {
+  @include font-style(16px, 400, $secondary, $lineHeight: 1.5, $spacing: 0);
+  margin-left: 4px;
+}
+
+@media screen and (max-width: 580px) {
+  .section-contact {
+    .d-flex {
+      @include display-flex ($wrap: wrap);
+    }
+
+    .email {
+      margin-right: 0;
+    }
+
+    .phone {
+      margin-left: 0;
+
+      .d-flex {
+        input {
+          width: 70%;
+        }
+      }
+    }
+
+    .phone-prefix {
+      width: 30%;
+    }
+  }
+}
